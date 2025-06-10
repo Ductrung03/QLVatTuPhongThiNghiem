@@ -7,4 +7,12 @@
     <RootNamespace>Cuba_Staterkit</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Repositories\Implements\" />
+    <Folder Include="Repositories\Interfaces\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Services\Implements\" />
+  </ItemGroup>
+
 </Project>
