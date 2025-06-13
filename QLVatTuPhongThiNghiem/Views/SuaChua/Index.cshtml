@@ -1,0 +1,201 @@
+﻿@model IEnumerable<QLVatTuPhongThiNghiem.Models.ViewModels.SuaChuaViewModel>
+@{
+    ViewData["Title"] = "Quản lý sửa chữa bảo hành";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Quản lý sửa chữa bảo hành</h3>
+                </div>
+                <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">Sửa chữa</li>
+                        <li class="breadcrumb-item active">Danh sách</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Danh sách phiếu sửa chữa</h5>
+                        <div class="card-header-right">
+                            <a href="@Url.Action("Create", "SuaChua")" class="btn btn-primary">
+                                <i data-feather="plus"></i> Tạo phiếu sửa chữa
+                            </a>
+                            <a href="@Url.Action("InProgress", "SuaChua")" class="btn btn-warning">
+                                <i data-feather="clock"></i> Đang sửa chữa
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã SC</th>
+                                        <th>Thiết bị</th>
+                                        <th>Loại sửa chữa</th>
+                                        <th>Ngày bắt đầu</th>
+                                        <th>Ngày kết thúc</th>
+                                        <th>Chi phí</th>
+                                        <th>Trạng thái</th>
+                                        <th>Người thực hiện</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model?.Any() == true)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.MaSuaChua</td>
+                                                <td>@item.TenThietBi</td>
+                                                <td>
+                                                    @if (item.LoaiSuaChua == "Bảo hành")
+                                                    {
+                                                        <span class="badge badge-info">@item.LoaiSuaChua</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-secondary">@item.LoaiSuaChua</span>
+                                                    }
+                                                </td>
+                                                <td>@item.NgayBatDau.ToString("dd/MM/yyyy")</td>
+                                                <td>@(item.NgayKetThuc?.ToString("dd/MM/yyyy") ?? "Chưa hoàn thành")</td>
+                                                <td>@String.Format("{0:N0}", item.ChiPhi ?? 0) VNĐ</td>
+                                                <td>
+                                                    @if (item.TrangThai == "Đang sửa chữa")
+                                                    {
+                                                        <span class="badge badge-warning">@item.TrangThai</span>
+                                                    }
+                                                    else if (item.TrangThai == "Hoàn thành")
+                                                    {
+                                                        <span class="badge badge-success">@item.TrangThai</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-secondary">@item.TrangThai</span>
+                                                    }
+                                                </td>
+                                                <td>@item.TenNguoiThucHien</td>
+                                                <td>
+                                                    @if (item.TrangThai == "Đang sửa chữa")
+                                                    {
+                                                        <button type="button" class="btn btn-success btn-xs"
+                                                                onclick="completeRepair(@item.MaSuaChua)" title="Hoàn thành">
+                                                            <i data-feather="check"></i>
+                                                        </button>
+                                                    }
+                                                    <button type="button" class="btn btn-info btn-xs"
+                                                            onclick="viewDetails(@item.MaSuaChua)" title="Chi tiết">
+                                                        <i data-feather="eye"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9" class="text-center">Chưa có phiếu sửa chữa nào</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal hoàn thành sửa chữa -->
+<div class="modal fade" id="completeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hoàn thành sửa chữa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="completeForm">
+                    <input type="hidden" id="maSuaChua" />
+                    <div class="form-group">
+                        <label>Chi phí (VNĐ)</label>
+                        <input type="number" id="chiPhi" class="form-control" min="0" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Tình trạng sau sửa chữa</label>
+                        <select id="tinhTrangMoi" class="form-control" required>
+                            <option value="">-- Chọn tình trạng --</option>
+                            <option value="Tốt">Tốt</option>
+                            <option value="Khá tốt">Khá tốt</option>
+                            <option value="Bình thường">Bình thường</option>
+                            <option value="Cần theo dõi">Cần theo dõi</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="submitComplete()">Hoàn thành</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function completeRepair(id) {
+        $('#maSuaChua').val(id);
+        $('#completeModal').modal('show');
+    }
+
+    function submitComplete() {
+        var id = $('#maSuaChua').val();
+        var chiPhi = $('#chiPhi').val();
+        var tinhTrangMoi = $('#tinhTrangMoi').val();
+
+        if (!chiPhi || !tinhTrangMoi) {
+            alert('Vui lòng nhập đầy đủ thông tin');
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Complete", "SuaChua")',
+            type: 'POST',
+            data: { id: id, chiPhi: chiPhi, tinhTrangMoi: tinhTrangMoi },
+            success: function(result) {
+                if (result.success) {
+                    alert(result.message);
+                    location.reload();
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function() {
+                alert('Có lỗi xảy ra khi hoàn thành sửa chữa');
+            }
+        });
+    }
+
+    function viewDetails(id) {
+        // Implement view details functionality
+        alert('Chức năng xem chi tiết đang được phát triển');
+    }
+
+    $(document).ready(function() {
+        feather.replace();
+    });
+</script>

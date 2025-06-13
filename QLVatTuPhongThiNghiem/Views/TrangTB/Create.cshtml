@@ -1,0 +1,146 @@
+﻿@model QLVatTuPhongThiNghiem.Models.ViewModels.TrangTBViewModel
+@{
+    ViewData["Title"] = "Thêm thiết bị mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Thêm thiết bị mới</h3>
+                </div>
+                <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "TrangTB")">Thiết bị</a></li>
+                        <li class="breadcrumb-item active">Thêm mới</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Thông tin thiết bị</h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="MaPhongMay" class="control-label"></label>
+                                        <select asp-for="MaPhongMay" class="form-control">
+                                            <option value="">-- Chọn phòng máy --</option>
+                                            @if (ViewBag.PhongMayList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.PhongMay>)ViewBag.PhongMayList)
+                                                {
+                                                    <option value="@item.MaPhongMay">@item.TenPhongMay</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="MaPhongMay" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="MaLoai" class="control-label"></label>
+                                        <select asp-for="MaLoai" class="form-control">
+                                            <option value="">-- Chọn loại thiết bị --</option>
+                                            @if (ViewBag.LoaiList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.Loai>)ViewBag.LoaiList)
+                                                {
+                                                    <option value="@item.MaLoai">@item.TenLoai</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="MaLoai" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="MaThuongHieu" class="control-label"></label>
+                                        <select asp-for="MaThuongHieu" class="form-control">
+                                            <option value="">-- Chọn thương hiệu --</option>
+                                            @if (ViewBag.ThuongHieuList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.ThuongHieu>)ViewBag.ThuongHieuList)
+                                                {
+                                                    <option value="@item.MaThuongHieu">@item.TenThuongHieu</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="MaThuongHieu" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="GiaTien" class="control-label"></label>
+                                        <input asp-for="GiaTien" class="form-control" type="number" min="0" />
+                                        <span asp-validation-for="GiaTien" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="TinhTrang" class="control-label"></label>
+                                        <select asp-for="TinhTrang" class="form-control">
+                                            <option value="">-- Chọn tình trạng --</option>
+                                            <option value="Tốt">Tốt</option>
+                                            <option value="Khá tốt">Khá tốt</option>
+                                            <option value="Bình thường">Bình thường</option>
+                                            <option value="Cần bảo trì">Cần bảo trì</option>
+                                            <option value="Hỏng">Hỏng</option>
+                                        </select>
+                                        <span asp-validation-for="TinhTrang" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="NgayNhap" class="control-label"></label>
+                                        <input asp-for="NgayNhap" class="form-control" type="date" />
+                                        <span asp-validation-for="NgayNhap" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <i data-feather="save"></i> Lưu
+                                </button>
+                                <a asp-action="Index" class="btn btn-secondary">
+                                    <i data-feather="x"></i> Hủy
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+</div>
+
+<script>
+    $(document).ready(function() {
+        feather.replace();
+    });
+</script>

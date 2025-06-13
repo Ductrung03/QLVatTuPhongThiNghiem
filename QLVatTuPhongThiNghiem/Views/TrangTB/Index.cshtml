@@ -1,0 +1,254 @@
+﻿@model QLVatTuPhongThiNghiem.Models.ViewModels.SearchTrangTBViewModel
+@{
+    ViewData["Title"] = "Quản lý thiết bị";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Quản lý thiết bị</h3>
+                </div>
+                <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">Thiết bị</li>
+                        <li class="breadcrumb-item active">Danh sách</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Tìm kiếm thiết bị</h5>
+                        <div class="card-header-right">
+                            <a href="@Url.Action("Create", "TrangTB")" class="btn btn-primary">
+                                <i data-feather="plus"></i> Thêm mới
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="get" asp-action="Index">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Phòng máy</label>
+                                        <select class="form-control" asp-for="MaPhongMay">
+                                            <option value="">-- Tất cả phòng --</option>
+                                            @if (ViewBag.PhongMayList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.PhongMay>)ViewBag.PhongMayList)
+                                                {
+                                                    <option value="@item.MaPhongMay">@item.TenPhongMay</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Loại thiết bị</label>
+                                        <select class="form-control" asp-for="MaLoai">
+                                            <option value="">-- Tất cả loại --</option>
+                                            @if (ViewBag.LoaiList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.Loai>)ViewBag.LoaiList)
+                                                {
+                                                    <option value="@item.MaLoai">@item.TenLoai</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Thương hiệu</label>
+                                        <select class="form-control" asp-for="MaThuongHieu">
+                                            <option value="">-- Tất cả thương hiệu --</option>
+                                            @if (ViewBag.ThuongHieuList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.ThuongHieu>)ViewBag.ThuongHieuList)
+                                                {
+                                                    <option value="@item.MaThuongHieu">@item.TenThuongHieu</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tình trạng</label>
+                                        <input type="text" class="form-control" asp-for="TinhTrang" placeholder="Nhập tình trạng">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i data-feather="search"></i> Tìm kiếm
+                                    </button>
+                                    <a href="@Url.Action("Index", "TrangTB")" class="btn btn-secondary">
+                                        <i data-feather="refresh-cw"></i> Làm mới
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Danh sách thiết bị</h5>
+                        <span class="f-14 pull-right">Tổng cộng: @Model.TotalRecords thiết bị</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã TB</th>
+                                        <th>Phòng máy</th>
+                                        <th>Loại TB</th>
+                                        <th>Thương hiệu</th>
+                                        <th>Giá tiền</th>
+                                        <th>Tình trạng</th>
+                                        <th>Ngày nhập</th>
+                                        <th>Số lần sửa</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Results?.Any() == true)
+                                    {
+                                        @foreach (var item in Model.Results)
+                                        {
+                                            <tr>
+                                                <td>@item.MaTTB</td>
+                                                <td>@item.TenPhongMay</td>
+                                                <td>@item.TenLoai</td>
+                                                <td>@item.TenThuongHieu</td>
+                                                <td>@String.Format("{0:N0}", item.GiaTien)</td>
+                                                <td>
+                                                    @if (item.TinhTrang == "Tốt")
+                                                    {
+                                                        <span class="badge badge-success">@item.TinhTrang</span>
+                                                    }
+                                                    else if (item.TinhTrang == "Hỏng")
+                                                    {
+                                                        <span class="badge badge-danger">@item.TinhTrang</span>
+                                                    }
+                                                    else if (item.TinhTrang == "Đang sửa chữa")
+                                                    {
+                                                        <span class="badge badge-warning">@item.TinhTrang</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-secondary">@item.TinhTrang</span>
+                                                    }
+                                                </td>
+                                                <td>@item.NgayNhap.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.SoLanSua</td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <a href="@Url.Action("Edit", "TrangTB", new { id = item.MaTTB })" 
+                                                           class="btn btn-primary btn-xs" title="Sửa">
+                                                            <i data-feather="edit"></i>
+                                                        </a>
+                                                        <button type="button" class="btn btn-danger btn-xs" 
+                                                                onclick="deleteItem(@item.MaTTB)" title="Xóa">
+                                                            <i data-feather="trash-2"></i>
+                                                        </button>
+                                                        <a href="@Url.Action("Details", "TrangTB", new { id = item.MaTTB })" 
+                                                           class="btn btn-info btn-xs" title="Chi tiết">
+                                                            <i data-feather="eye"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9" class="text-center">Không có dữ liệu</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        @if (Model.TotalRecords > Model.PageSize)
+                        {
+                            var totalPages = (int)Math.Ceiling((double)Model.TotalRecords / Model.PageSize);
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    @if (Model.PageNumber > 1)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="?PageNumber=@(Model.PageNumber - 1)">Trước</a>
+                                        </li>
+                                    }
+
+                                    @for (int i = 1; i <= totalPages; i++)
+                                    {
+                                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                            <a class="page-link" href="?PageNumber=@i">@i</a>
+                                        </li>
+                                    }
+
+                                    @if (Model.PageNumber < totalPages)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="?PageNumber=@(Model.PageNumber + 1)">Sau</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+</div>
+
+<script>
+    function deleteItem(id) {
+        if (confirm('Bạn có chắc chắn muốn xóa thiết bị này?')) {
+            $.ajax({
+                url: '@Url.Action("Delete", "TrangTB")',
+                type: 'POST',
+                data: { id: id },
+                success: function(result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi xóa thiết bị');
+                }
+            });
+        }
+    }
+    
+    $(document).ready(function() {
+        feather.replace();
+    });
+</script>

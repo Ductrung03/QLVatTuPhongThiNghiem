@@ -1,0 +1,149 @@
+﻿@model IEnumerable<QLVatTuPhongThiNghiem.Models.ViewModels.LichThucHanhViewModel>
+@{
+    ViewData["Title"] = "Quản lý lịch thực hành";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Quản lý lịch thực hành</h3>
+                </div>
+                <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">Lịch thực hành</li>
+                        <li class="breadcrumb-item active">Danh sách</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Danh sách lịch thực hành</h5>
+                        <div class="card-header-right">
+                            <a href="@Url.Action("Create", "LichThucHanh")" class="btn btn-primary">
+                                <i data-feather="plus"></i> Đăng ký lịch mới
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã lịch</th>
+                                        <th>Người đăng ký</th>
+                                        <th>Thời gian bắt đầu</th>
+                                        <th>Thời gian kết thúc</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model?.Any() == true)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.MaLich</td>
+                                                <td>@item.TenNguoiDung</td>
+                                                <td>@item.ThoiGianBD.ToString("dd/MM/yyyy HH:mm")</td>
+                                                <td>@item.ThoiGianKT.ToString("dd/MM/yyyy HH:mm")</td>
+                                                <td>
+                                                    @if (item.TrangThai == "Đã đăng ký")
+                                                    {
+                                                        <span class="badge badge-primary">@item.TrangThai</span>
+                                                    }
+                                                    else if (item.TrangThai == "Đang thực hiện")
+                                                    {
+                                                        <span class="badge badge-warning">@item.TrangThai</span>
+                                                    }
+                                                    else if (item.TrangThai == "Hoàn thành")
+                                                    {
+                                                        <span class="badge badge-success">@item.TrangThai</span>
+                                                    }
+                                                    else if (item.TrangThai == "Đã hủy")
+                                                    {
+                                                        <span class="badge badge-danger">@item.TrangThai</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-secondary">@item.TrangThai</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        @if (item.TrangThai == "Đã đăng ký")
+                                                        {
+                                                            <button type="button" class="btn btn-warning btn-xs"
+                                                                    onclick="updateStatus(@item.MaLich, 'Đang thực hiện')" title="Bắt đầu">
+                                                                <i data-feather="play"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger btn-xs"
+                                                                    onclick="updateStatus(@item.MaLich, 'Đã hủy')" title="Hủy">
+                                                                <i data-feather="x"></i>
+                                                            </button>
+                                                        }
+                                                        @if (item.TrangThai == "Đang thực hiện")
+                                                        {
+                                                            <button type="button" class="btn btn-success btn-xs"
+                                                                    onclick="updateStatus(@item.MaLich, 'Hoàn thành')" title="Hoàn thành">
+                                                                <i data-feather="check"></i>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="text-center">Chưa có lịch thực hành nào</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateStatus(id, status) {
+        if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái?')) {
+            $.ajax({
+                url: '@Url.Action("UpdateStatus", "LichThucHanh")',
+                type: 'POST',
+                data: { id: id, status: status },
+                success: function(result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            });
+        }
+    }
+
+    $(document).ready(function() {
+        feather.replace();
+    });
+</script>
+

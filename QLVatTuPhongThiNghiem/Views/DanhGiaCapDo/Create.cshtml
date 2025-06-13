@@ -1,0 +1,174 @@
+﻿@model QLVatTuPhongThiNghiem.Models.ViewModels.DanhGiaCapDoViewModel
+@{
+    ViewData["Title"] = "Thêm đánh giá cấp độ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-body">
+    <div class="container-fluid">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Thêm đánh giá cấp độ</h3>
+                </div>
+                <div class="col-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DanhGiaCapDo")">Đánh giá cấp độ</a></li>
+                        <li class="breadcrumb-item active">Thêm mới</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Thông tin đánh giá</h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="MaTTB" class="control-label"></label>
+                                        <select asp-for="MaTTB" class="form-control" id="thietBiSelect">
+                                            <option value="">-- Chọn thiết bị --</option>
+                                            @if (ViewBag.ThietBiList != null)
+                                            {
+                                                @foreach (var item in (IEnumerable<QLVatTuPhongThiNghiem.Models.Entities.TrangTB>)ViewBag.ThietBiList)
+                                                {
+                                                    <option value="@item.MaTTB">
+                                                        @item.MaTTB - @item.Loai?.TenLoai @item.ThuongHieu?.TenThuongHieu
+                                                    </option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="MaTTB" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CapDo" class="control-label"></label>
+                                        <div class="rating-input">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <input type="radio" asp-for="CapDo" value="@i" id="star@i" />
+                                                <label for="star@i" class="star">
+                                                    <i class="fa fa-star"></i>
+                                                </label>
+                                            }
+                                        </div>
+                                        <span asp-validation-for="CapDo" class="text-danger"></span>
+                                        <small class="form-text text-muted">
+                                            1 = Rất kém, 2 = Kém, 3 = Trung bình, 4 = Tốt, 5 = Rất tốt
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="GhiChu" class="control-label"></label>
+                                <textarea asp-for="GhiChu" class="form-control" rows="4" placeholder="Nhập ghi chú về tình trạng thiết bị..."></textarea>
+                                <span asp-validation-for="GhiChu" class="text-danger"></span>
+                            </div>
+
+                            <div id="currentRating" class="alert alert-info" style="display: none;">
+                                <h6><i data-feather="info"></i> Cấp độ hiện tại của thiết bị:</h6>
+                                <div id="currentRatingContent"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <i data-feather="save"></i> Lưu đánh giá
+                                </button>
+                                <a asp-action="Index" class="btn btn-secondary">
+                                    <i data-feather="x"></i> Hủy
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rating-input {
+        direction: rtl;
+        display: inline-block;
+    }
+
+        .rating-input input[type="radio"] {
+            display: none;
+        }
+
+        .rating-input .star {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            color: #ccc;
+            font-size: 20px;
+        }
+
+            .rating-input .star:hover,
+            .rating-input .star:hover ~ .star,
+            .rating-input input[type="radio"]:checked ~ .star {
+                color: #ffc107;
+            }
+</style>
+
+<script>
+    $(document).ready(function() {
+        feather.replace();
+
+        // Load current rating when equipment is selected
+        $('#thietBiSelect').change(function() {
+            var maTTB = $(this).val();
+            if (maTTB) {
+                $.ajax({
+                    url: '@Url.Action("GetCapDoThietBi", "DanhGiaCapDo")',
+                    type: 'GET',
+                    data: { maTTB: maTTB },
+                    success: function(data) {
+                        if (data && data.capDo) {
+                            var stars = '';
+                            for (var i = 1; i <= 5; i++) {
+                                if (i <= data.capDo) {
+                                    stars += '<i class="fa fa-star text-warning"></i>';
+                                } else {
+                                    stars += '<i class="fa fa-star-o text-muted"></i>';
+                                }
+                            }
+
+                            $('#currentRatingContent').html(`
+                                <div>
+                                    <strong>Cấp độ:</strong> ${stars} (${data.capDo}/5)
+                                </div>
+                                <div><strong>Ngày đánh giá:</strong> ${new Date(data.ngayDanhGia).toLocaleDateString('vi-VN')}</div>
+                                <div><strong>Người đánh giá:</strong> ${data.nguoiDanhGia}</div>
+                                ${data.ghiChu ? '<div><strong>Ghi chú:</strong> ' + data.ghiChu + '</div>' : ''}
+                            `);
+                            $('#currentRating').show();
+                        } else {
+                            $('#currentRating').hide();
+                        }
+                    },
+                    error: function() {
+                        $('#currentRating').hide();
+                    }
+                });
+            } else {
+                $('#currentRating').hide();
+            }
+        });
+    });
+</script>
