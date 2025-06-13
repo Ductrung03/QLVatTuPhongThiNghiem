@@ -36,10 +36,10 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
 
         public async Task<DanhGiaCapDoViewModel> GetCapDoThietBiAsync(int maTTB)
         {
-            var result = await _context.Database.SqlQueryRaw<DanhGiaCapDoViewModel>(
-                "EXEC SP_GetCapDoThietBi @MaTTB",
-                new SqlParameter("@MaTTB", maTTB)
-            ).FirstOrDefaultAsync();
+            var result = await _context.DanhGiaCapDoViewModel
+                .FromSqlRaw("EXEC SP_GetCapDoThietBi @MaTTB",
+                    new SqlParameter("@MaTTB", maTTB))
+                .FirstOrDefaultAsync();
 
             return result;
         }
@@ -57,8 +57,7 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
                 LEFT JOIN NguoiDung n ON d.NguoiDanhGia = n.MaNguoiDung
                 ORDER BY d.NgayDanhGia DESC";
 
-            return await _context.Database.SqlQueryRaw<DanhGiaCapDoViewModel>(query).ToListAsync();
+            return await _context.DanhGiaCapDoViewModel.FromSqlRaw(query).ToListAsync();
         }
     }
 }
-

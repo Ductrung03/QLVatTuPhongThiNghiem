@@ -71,7 +71,7 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
                 LEFT JOIN NguoiDung n ON s.NguoiThucHien = n.MaNguoiDung
                 ORDER BY s.NgayBatDau DESC";
 
-            return await _context.Database.SqlQueryRaw<SuaChuaViewModel>(query).ToListAsync();
+            return await _context.SuaChuaViewModel.FromSqlRaw(query).ToListAsync();
         }
 
         public async Task<IEnumerable<SuaChuaViewModel>> GetByTrangThaiAsync(string trangThai)
@@ -89,8 +89,9 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
                 WHERE s.TrangThai = @TrangThai
                 ORDER BY s.NgayBatDau DESC";
 
-            return await _context.Database.SqlQueryRaw<SuaChuaViewModel>(query,
-                new SqlParameter("@TrangThai", trangThai)).ToListAsync();
+            return await _context.SuaChuaViewModel
+                .FromSqlRaw(query, new SqlParameter("@TrangThai", trangThai))
+                .ToListAsync();
         }
     }
 }

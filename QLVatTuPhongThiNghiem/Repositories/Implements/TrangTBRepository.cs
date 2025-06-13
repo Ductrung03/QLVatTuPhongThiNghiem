@@ -79,7 +79,7 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
 
         public async Task<SearchTrangTBViewModel> SearchAsync(SearchTrangTBViewModel searchModel)
         {
-            var results = await _context.Database.SqlQueryRaw<TrangTBViewModel>(
+            var results = await _context.TrangTBViewModel.FromSqlRaw(
                 @"EXEC SP_TrangTB_Search @MaPhongMay, @MaLoai, @TinhTrang, @MaThuongHieu, @PageNumber, @PageSize",
                 new SqlParameter("@MaPhongMay", searchModel.MaPhongMay ?? (object)DBNull.Value),
                 new SqlParameter("@MaLoai", searchModel.MaLoai ?? (object)DBNull.Value),

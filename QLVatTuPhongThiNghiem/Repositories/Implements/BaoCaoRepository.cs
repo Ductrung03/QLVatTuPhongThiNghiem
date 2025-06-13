@@ -17,34 +17,71 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
 
         public async Task<IEnumerable<ThongKeTheoPhongViewModel>> ThongKeThietBiTheoPhongAsync()
         {
-            return await _context.Database.SqlQueryRaw<ThongKeTheoPhongViewModel>(
-                "EXEC SP_ThongKeThietBiTheoPhong"
-            ).ToListAsync();
+            return await _context.ThongKeTheoPhongViewModel
+                .FromSqlRaw("EXEC SP_ThongKeThietBiTheoPhong")
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<ThongKeSuDungTheoThangViewModel>> ThongKeSuDungTheoThangAsync(int nam)
         {
-            return await _context.Database.SqlQueryRaw<ThongKeSuDungTheoThangViewModel>(
-                "EXEC SP_ThongKeSuDungTheoThang @Nam",
-                new SqlParameter("@Nam", nam)
-            ).ToListAsync();
+            return await _context.ThongKeSuDungTheoThangViewModel
+                .FromSqlRaw("EXEC SP_ThongKeSuDungTheoThang @Nam",
+                    new SqlParameter("@Nam", nam))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<dynamic>> BaoCaoChiPhiSuaChuaAsync(DateTime tuNgay, DateTime denNgay)
         {
-            return await _context.Database.SqlQueryRaw<dynamic>(
-                "EXEC SP_BaoCaoChiPhiSuaChua @TuNgay, @DenNgay",
-                new SqlParameter("@TuNgay", tuNgay.Date),
-                new SqlParameter("@DenNgay", denNgay.Date)
-            ).ToListAsync();
+            // For dynamic results, we need to use a different approach
+            var connection = _context.Database.GetDbConnection();
+            var command = connection.CreateCommand();
+            command.CommandText = "EXEC SP_BaoCaoChiPhiSuaChua @TuNgay, @DenNgay";
+            command.Parameters.Add(new SqlParameter("@TuNgay", tuNgay.Date));
+            command.Parameters.Add(new SqlParameter("@DenNgay", denNgay.Date));
+
+            var results = new List<dynamic>();
+
+            if (connection.State != System.Data.ConnectionState.Open)
+                await connection.OpenAsync();
+
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                var expando = new System.Dynamic.ExpandoObject() as IDictionary<string, object>;
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    expando[reader.GetName(i)] = reader[i];
+                }
+                results.Add(expando);
+            }
+
+            return results;
         }
 
         public async Task<IEnumerable<dynamic>> ThongKeDanhGiaCapDoAsync()
         {
-            return await _context.Database.SqlQueryRaw<dynamic>(
-                "EXEC SP_ThongKeDanhGiaCapDo"
-            ).ToListAsync();
+            // For dynamic results, we need to use a different approach
+            var connection = _context.Database.GetDbConnection();
+            var command = connection.CreateCommand();
+            command.CommandText = "EXEC SP_ThongKeDanhGiaCapDo";
+
+            var results = new List<dynamic>();
+
+            if (connection.State != System.Data.ConnectionState.Open)
+                await connection.OpenAsync();
+
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                var expando = new System.Dynamic.ExpandoObject() as IDictionary<string, object>;
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    expando[reader.GetName(i)] = reader[i];
+                }
+                results.Add(expando);
+            }
+
+            return results;
         }
     }
 }
-

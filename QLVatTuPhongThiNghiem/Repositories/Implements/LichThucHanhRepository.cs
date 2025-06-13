@@ -63,7 +63,7 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
                 LEFT JOIN NguoiDung n ON l.MaNguoiDung = n.MaNguoiDung
                 ORDER BY l.ThoiGianBD DESC";
 
-            return await _context.Database.SqlQueryRaw<LichThucHanhViewModel>(query).ToListAsync();
+            return await _context.LichThucHanhViewModel.FromSqlRaw(query).ToListAsync();
         }
 
         public async Task<IEnumerable<LichThucHanhViewModel>> GetByUserAsync(int maNguoiDung)
@@ -75,9 +75,9 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
                 WHERE l.MaNguoiDung = @MaNguoiDung
                 ORDER BY l.ThoiGianBD DESC";
 
-            return await _context.Database.SqlQueryRaw<LichThucHanhViewModel>(query,
-                new SqlParameter("@MaNguoiDung", maNguoiDung)).ToListAsync();
+            return await _context.LichThucHanhViewModel
+                .FromSqlRaw(query, new SqlParameter("@MaNguoiDung", maNguoiDung))
+                .ToListAsync();
         }
     }
 }
-

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QLVatTuPhongThiNghiem.Models.Entities;
+using QLVatTuPhongThiNghiem.Models.ViewModels;
 
 namespace QLVatTuPhongThiNghiem.Data
 {
@@ -19,6 +20,15 @@ namespace QLVatTuPhongThiNghiem.Data
         public DbSet<DanhGiaCapDo> DanhGiaCapDo { get; set; }
         public DbSet<XuatNhapTon> XuatNhapTon { get; set; }
 
+        // Add DbSets for ViewModels used in SqlQueryRaw
+        public DbSet<ThongKeTheoPhongViewModel> ThongKeTheoPhongViewModel { get; set; }
+        public DbSet<ThongKeSuDungTheoThangViewModel> ThongKeSuDungTheoThangViewModel { get; set; }
+        public DbSet<DanhGiaCapDoViewModel> DanhGiaCapDoViewModel { get; set; }
+        public DbSet<SuaChuaViewModel> SuaChuaViewModel { get; set; }
+        public DbSet<XuatNhapTonViewModel> XuatNhapTonViewModel { get; set; }
+        public DbSet<LichThucHanhViewModel> LichThucHanhViewModel { get; set; }
+        public DbSet<TrangTBViewModel> TrangTBViewModel { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -33,6 +43,15 @@ namespace QLVatTuPhongThiNghiem.Data
             modelBuilder.Entity<LichSuSuaChua>().ToTable("LichSuSuaChua");
             modelBuilder.Entity<DanhGiaCapDo>().ToTable("DanhGiaCapDo");
             modelBuilder.Entity<XuatNhapTon>().ToTable("XuatNhapTon");
+
+            // Configure ViewModels as keyless entities
+            modelBuilder.Entity<ThongKeTheoPhongViewModel>().HasNoKey();
+            modelBuilder.Entity<ThongKeSuDungTheoThangViewModel>().HasNoKey();
+            modelBuilder.Entity<DanhGiaCapDoViewModel>().HasNoKey();
+            modelBuilder.Entity<SuaChuaViewModel>().HasNoKey();
+            modelBuilder.Entity<XuatNhapTonViewModel>().HasNoKey();
+            modelBuilder.Entity<LichThucHanhViewModel>().HasNoKey();
+            modelBuilder.Entity<TrangTBViewModel>().HasNoKey();
 
             // Configure decimal precision
             modelBuilder.Entity<LichSuSuaChua>()

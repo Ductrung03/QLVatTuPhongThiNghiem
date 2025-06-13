@@ -55,12 +55,29 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
 
         public async Task<IEnumerable<dynamic>> BaoCaoTonKhoAsync(int? maPhongMay = null)
         {
-            var result = await _context.Database.SqlQueryRaw<dynamic>(
-                "EXEC SP_BaoCaoTonKho @MaPhongMay",
-                new SqlParameter("@MaPhongMay", maPhongMay ?? (object)DBNull.Value)
-            ).ToListAsync();
+            // For dynamic results, we need to use a different approach
+            var connection = _context.Database.GetDbConnection();
+            var command = connection.CreateCommand();
+            command.CommandText = "EXEC SP_BaoCaoTonKho @MaPhongMay";
+            command.Parameters.Add(new SqlParameter("@MaPhongMay", maPhongMay ?? (object)DBNull.Value));
 
-            return result;
+            var results = new List<dynamic>();
+
+            if (connection.State != System.Data.ConnectionState.Open)
+                await connection.OpenAsync();
+
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                var expando = new System.Dynamic.ExpandoObject() as IDictionary<string, object>;
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    expando[reader.GetName(i)] = reader[i];
+                }
+                results.Add(expando);
+            }
+
+            return results;
         }
 
         public async Task<IEnumerable<XuatNhapTonViewModel>> GetAllAsync()
@@ -76,7 +93,7 @@ namespace QLVatTuPhongThiNghiem.Repositories.Implements
                 LEFT JOIN NguoiDung n ON x.NguoiTao = n.MaNguoiDung
                 ORDER BY x.NgayTao DESC";
 
-            return await _context.Database.SqlQueryRaw<XuatNhapTonViewModel>(query).ToListAsync();
+            return await _context.XuatNhapTonViewModel.FromSqlRaw(query).ToListAsync();
         }
     }
 }

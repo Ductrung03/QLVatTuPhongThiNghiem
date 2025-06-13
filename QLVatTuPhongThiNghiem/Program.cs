@@ -39,6 +39,8 @@ builder.Services.AddScoped<IMasterDataService, MasterDataService>();
 builder.Services.AddScoped<ILichThucHanhService, LichThucHanhService>();
 builder.Services.AddScoped<ISuaChuaService, SuaChuaService>();
 builder.Services.AddScoped<IXuatNhapTonService, XuatNhapTonService>();
+builder.Services.AddScoped<IBaoCaoService, BaoCaoService>();
+builder.Services.AddScoped<IDanhGiaCapDoService, DanhGiaCapDoService>();
 
 var app = builder.Build();
 
