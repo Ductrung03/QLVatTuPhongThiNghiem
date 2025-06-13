@@ -13,7 +13,11 @@
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">
+                            <a href="#">
+                                <i data-feather="home"></i>
+                            </a>
+                        </li>
                         <li class="breadcrumb-item">Dashboard</li>
                         <li class="breadcrumb-item active">Trang chủ</li>
                     </ol>
@@ -22,236 +26,263 @@
         </div>
     </div>
 
-    <!-- Container-fluid starts-->
     <div class="container-fluid">
         <!-- Statistics Cards -->
-        <div class="row second-chart-list third-news-update">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                <div class="card gradient-primary o-hidden">
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-primary">
                     <div class="card-body">
-                        <div class="media static-top-widget">
-                            <div class="align-self-center text-center">
-                                <i data-feather="database" class="font-primary"></i>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="text-primary mb-0 counter">@Model.TongThietBi</h4>
+                                <p class="text-muted mb-0">Tổng thiết bị</p>
                             </div>
-                            <div class="media-body">
-                                <span class="m-0">Tổng thiết bị</span>
-                                <h4 class="mb-0 counter">@Model.TongThietBi</h4>
-                                <i class="icon-bg" data-feather="database"></i>
-                            </div>
+                            <i data-feather="box" class="text-primary" style="width: 48px; height: 48px;"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                <div class="card gradient-success o-hidden">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-success">
                     <div class="card-body">
-                        <div class="media static-top-widget">
-                            <div class="align-self-center text-center">
-                                <i data-feather="check-circle" class="font-success"></i>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="text-success mb-0 counter">@Model.ThietBiTot</h4>
+                                <p class="text-muted mb-0">Thiết bị tốt</p>
                             </div>
-                            <div class="media-body">
-                                <span class="m-0">Thiết bị tốt</span>
-                                <h4 class="mb-0 counter">@Model.ThietBiTot</h4>
-                                <i class="icon-bg" data-feather="check-circle"></i>
-                            </div>
+                            <i data-feather="check-circle" class="text-success" style="width: 48px; height: 48px;"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                <div class="card gradient-secondary o-hidden">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-warning">
                     <div class="card-body">
-                        <div class="media static-top-widget">
-                            <div class="align-self-center text-center">
-                                <i data-feather="tool" class="font-secondary"></i>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="text-warning mb-0 counter">@Model.ThietBiDangSua</h4>
+                                <p class="text-muted mb-0">Đang sửa chữa</p>
                             </div>
-                            <div class="media-body">
-                                <span class="m-0">Đang sửa chữa</span>
-                                <h4 class="mb-0 counter">@Model.ThietBiDangSua</h4>
-                                <i class="icon-bg" data-feather="tool"></i>
-                            </div>
+                            <i data-feather="tool" class="text-warning" style="width: 48px; height: 48px;"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                <div class="card gradient-warning o-hidden">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-danger">
                     <div class="card-body">
-                        <div class="media static-top-widget">
-                            <div class="align-self-center text-center">
-                                <i data-feather="x-circle" class="font-warning"></i>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="text-danger mb-0 counter">@Model.ThietBiHong</h4>
+                                <p class="text-muted mb-0">Thiết bị hỏng</p>
                             </div>
-                            <div class="media-body">
-                                <span class="m-0">Thiết bị hỏng</span>
-                                <h4 class="mb-0 counter">@Model.ThietBiHong</h4>
-                                <i class="icon-bg" data-feather="x-circle"></i>
-                            </div>
+                            <i data-feather="x-circle" class="text-danger" style="width: 48px; height: 48px;"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Charts and Tables -->
+        <!-- Main Content -->
         <div class="row">
-            <div class="col-xl-8 col-md-12">
+            <div class="col-xl-8 col-lg-7">
                 <div class="card">
-                    <div class="card-header">
-                        <h5>Thống kê thiết bị theo phòng</h5>
-                        <div class="card-header-right">
-                            <ul class="list-unstyled card-option">
-                                <li><i class="fa fa-spin fa-cog"></i></li>
-                                <li><i class="view-html fa fa-code"></i></li>
-                                <li><i class="icofont icofont-maximize full-card"></i></li>
-                                <li><i class="icofont icofont-minus minimize-card"></i></li>
-                                <li><i class="icofont icofont-refresh reload-card"></i></li>
-                                <li><i class="icofont icofont-error close-card"></i></li>
-                            </ul>
-                        </div>
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
+                            <i data-feather="bar-chart-2" class="me-2"></i>Thống kê thiết bị theo phòng
+                        </h5>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordernone">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Phòng máy</th>
-                                        <th scope="col">Tổng TB</th>
-                                        <th scope="col">TB Tốt</th>
-                                        <th scope="col">TB Hỏng</th>
-                                        <th scope="col">Đang sửa</th>
-                                        <th scope="col">Trạng thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Model.ThongKeTheoPhong?.Any() == true)
-                                    {
+                        @if (Model.ThongKeTheoPhong?.Any() == true)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Phòng máy</th>
+                                            <th>Tổng TB</th>
+                                            <th>TB Tốt</th>
+                                            <th>TB Hỏng</th>
+                                            <th>Đang sửa</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         @foreach (var item in Model.ThongKeTheoPhong)
                                         {
                                             <tr>
-                                                <td>@item.TenPhongMay</td>
-                                                <td><span class="badge badge-light-primary">@item.TongThietBi</span></td>
-                                                <td><span class="badge badge-light-success">@item.ThietBiTot</span></td>
-                                                <td><span class="badge badge-light-danger">@item.ThietBiHong</span></td>
-                                                <td><span class="badge badge-light-warning">@item.ThietBiDangSua</span></td>
                                                 <td>
-                                                    @if (item.ThietBiHong == 0)
-                                                    {
-                                                        <span class="badge badge-success">Tốt</span>
+                                                    <strong>@item.TenPhongMay</strong>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary">@item.TongThietBi</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-success">@item.ThietBiTot</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-danger">@item.ThietBiHong</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-warning">@item.ThietBiDangSua</span>
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        var tyLeTot = item.TongThietBi > 0 ? (double)item.ThietBiTot / item.TongThietBi * 100 : 0;
+                                                        string statusClass = tyLeTot >= 80 ? "bg-success" : tyLeTot >= 60 ? "bg-warning" : "bg-danger";
+                                                        string statusText = tyLeTot >= 80 ? "Tốt" : tyLeTot >= 60 ? "Cảnh báo" : "Cần chú ý";
                                                     }
-                                                    else if (item.ThietBiHong < 3)
-                                                    {
-                                                        <span class="badge badge-warning">Cảnh báo</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge badge-danger">Cần chú ý</span>
-                                                    }
+                                                    <span class="badge @statusClass">@statusText</span>
                                                 </td>
                                             </tr>
                                         }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="6" class="text-center">Chưa có dữ liệu</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i data-feather="bar-chart-2" size="64" class="text-muted mb-3"></i>
+                                <h5 class="text-muted">Chưa có dữ liệu</h5>
+                                <p class="text-muted">Thêm thiết bị và phòng máy để xem thống kê.</p>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-4 col-md-12">
+            <div class="col-xl-4 col-lg-5">
+                <!-- Thông tin tổng quan -->
                 <div class="card">
-                    <div class="card-header">
-                        <h5>Thông tin tổng quan</h5>
+                    <div class="card-header bg-info">
+                        <h5 class="text-white mb-0">
+                            <i data-feather="info" class="me-2"></i>Thông tin tổng quan
+                        </h5>
                     </div>
                     <div class="card-body">
-                        <div class="ecommerce-widgets">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="media ecommerce-card-media">
-                                        <div class="ecommerce-card-icon primary">
-                                            <i data-feather="dollar-sign"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="f-w-500">Tổng giá trị thiết bị</h6>
-                                            <h4 class="f-w-500 mb-0">@String.Format("{0:N0}", Model.TongGiaTriThietBi) VNĐ</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="media ecommerce-card-media">
-                                        <div class="ecommerce-card-icon success">
-                                            <i data-feather="calendar"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="f-w-500">Lịch thực hành hôm nay</h6>
-                                            <h4 class="f-w-500 mb-0">@Model.LichThucHanhHomNay</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="media ecommerce-card-media">
-                                        <div class="ecommerce-card-icon warning">
-                                            <i data-feather="percent"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="f-w-500">Tỷ lệ thiết bị tốt</h6>
-                                            <h4 class="f-w-500 mb-0">
-                                                @if (Model.TongThietBi > 0)
-                                                {
-                                                    @String.Format("{0:N1}%", (double)Model.ThietBiTot / Model.TongThietBi * 100)
-                                                }
-                                                else
-                                                {
-                                                    @("0%")
-                                                }
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span><i data-feather="dollar-sign" class="text-primary me-2"></i>Tổng giá trị</span>
+                                <strong>@String.Format("{0:N0}", Model.TongGiaTriThietBi) VNĐ</strong>
                             </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span><i data-feather="calendar" class="text-success me-2"></i>Lịch hôm nay</span>
+                                <strong>@Model.LichThucHanhHomNay lịch</strong>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span><i data-feather="percent" class="text-warning me-2"></i>Tỷ lệ thiết bị tốt</span>
+                                <strong>
+                                    @if (Model.TongThietBi > 0)
+                                    {
+                                        @String.Format("{0:N1}%", (double)Model.ThietBiTot / Model.TongThietBi * 100)
+                                    }
+                                    else
+                                    {
+                                        @("0%")
+                                    }
+                                </strong>
+                            </div>
+                            @if (Model.TongThietBi > 0)
+                            {
+                                var tyLe = (double)Model.ThietBiTot / Model.TongThietBi * 100;
+                                var progressClass = tyLe >= 80 ? "bg-success" : tyLe >= 60 ? "bg-warning" : "bg-danger";
+                                <div class="progress">
+                                    <div class="progress-bar @progressClass" style="width: @tyLe%"></div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Menu nhanh</h5>
+                <!-- Menu nhanh -->
+                <div class="card mt-3">
+                    <div class="card-header bg-secondary">
+                        <h5 class="text-white mb-0">
+                            <i data-feather="zap" class="me-2"></i>Truy cập nhanh
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="@Url.Action("Index", "TrangTB")" class="btn btn-primary">
+                                <i data-feather="box" class="me-2"></i>Quản lý thiết bị
+                            </a>
+                            <a href="@Url.Action("Index", "LichThucHanh")" class="btn btn-success">
+                                <i data-feather="calendar" class="me-2"></i>Lịch thực hành
+                            </a>
+                            <a href="@Url.Action("Index", "SuaChua")" class="btn btn-warning">
+                                <i data-feather="tool" class="me-2"></i>Sửa chữa bảo hành
+                            </a>
+                            <a href="@Url.Action("Index", "XuatNhapTon")" class="btn btn-info">
+                                <i data-feather="archive" class="me-2"></i>Xuất nhập tồn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cảnh báo nhanh -->
+                @if (Model.ThietBiHong > 0 || Model.ThietBiDangSua > 5)
+                {
+                    <div class="card mt-3 border-warning">
+                        <div class="card-header bg-warning text-dark">
+                            <h6 class="mb-0">
+                                <i data-feather="alert-triangle" class="me-2"></i>Cảnh báo
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            @if (Model.ThietBiHong > 0)
+                            {
+                                <div class="alert alert-danger py-2">
+                                    <strong>@Model.ThietBiHong thiết bị</strong> đang bị hỏng cần xử lý
+                                </div>
+                            }
+                            @if (Model.ThietBiDangSua > 5)
+                            {
+                                <div class="alert alert-warning py-2">
+                                    <strong>@Model.ThietBiDangSua thiết bị</strong> đang trong quá trình sửa chữa
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-info">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="mb-0">
+                            <i data-feather="activity" class="me-2"></i>Hoạt động gần đây
+                        </h6>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6 mb-3">
-                                <a href="@Url.Action("Index", "TrangTB")" class="btn btn-primary btn-block">
-                                    <i data-feather="box" class="me-2"></i>
-                                    Quản lý thiết bị
-                                </a>
+                            <div class="col-md-3 text-center">
+                                <h5 class="text-primary">@Model.TongThietBi</h5>
+                                <small class="text-muted">Tổng thiết bị trong hệ thống</small>
                             </div>
-                            <div class="col-6 mb-3">
-                                <a href="@Url.Action("Index", "LichThucHanh")" class="btn btn-success btn-block">
-                                    <i data-feather="calendar" class="me-2"></i>
-                                    Lịch thực hành
-                                </a>
+                            <div class="col-md-3 text-center">
+                                <h5 class="text-success">@Model.LichThucHanhHomNay</h5>
+                                <small class="text-muted">Lịch thực hành hôm nay</small>
                             </div>
-                            <div class="col-6 mb-3">
-                                <a href="@Url.Action("Index", "SuaChua")" class="btn btn-warning btn-block">
-                                    <i data-feather="tool" class="me-2"></i>
-                                    Sửa chữa
-                                </a>
+                            <div class="col-md-3 text-center">
+                                <h5 class="text-warning">@Model.ThietBiDangSua</h5>
+                                <small class="text-muted">Thiết bị đang sửa chữa</small>
                             </div>
-                            <div class="col-6 mb-3">
-                                <a href="@Url.Action("Index", "XuatNhapTon")" class="btn btn-info btn-block">
-                                    <i data-feather="archive" class="me-2"></i>
-                                    Xuất nhập tồn
-                                </a>
+                            <div class="col-md-3 text-center">
+                                <h5 class="text-info">@String.Format("{0:N0}M", Model.TongGiaTriThietBi / 1000000)</h5>
+                                <small class="text-muted">Tổng giá trị (VNĐ)</small>
                             </div>
                         </div>
                     </div>
@@ -259,25 +290,41 @@
             </div>
         </div>
     </div>
-    <!-- Container-fluid Ends-->
 </div>
 
-<script>
-    $(document).ready(function() {
-        // Initialize Feather icons
-        feather.replace();
+@section Script {
+    <script>
+        $(document).ready(function() {
+            // Initialize feather icons
+            feather.replace();
 
-        // Counter animation
-        $('.counter').each(function () {
-            $(this).prop('Counter',0).animate({
-                Counter: $(this).text()
-            }, {
-                duration: 2000,
-                easing: 'swing',
-                step: function (now) {
-                    $(this).text(Math.ceil(now));
-                }
+            // Counter animation
+            $('.counter').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
             });
+
+            // Add hover effects to statistics cards
+            $('.card.border-primary, .card.border-success, .card.border-warning, .card.border-danger').hover(
+                function() {
+                    $(this).addClass('shadow-lg');
+                },
+                function() {
+                    $(this).removeClass('shadow-lg');
+                }
+            );
+
+            // Auto refresh every 5 minutes
+            setTimeout(function() {
+                location.reload();
+            }, 300000);
         });
-    });
-</script>
+    </script>
+}

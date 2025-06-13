@@ -7,7 +7,7 @@
         public int ThietBiHong { get; set; }
         public int ThietBiDangSua { get; set; }
         public int LichThucHanhHomNay { get; set; }
-        public decimal TongGiaTriThietBi { get; set; }
+        public double TongGiaTriThietBi { get; set; }
 
         public List<ThongKeTheoPhongViewModel> ThongKeTheoPhong { get; set; } = new List<ThongKeTheoPhongViewModel>();
         public List<ThongKeSuDungTheoThangViewModel> ThongKeSuDungTheoThang { get; set; } = new List<ThongKeSuDungTheoThangViewModel>();
@@ -21,7 +21,7 @@
         public int ThietBiTot { get; set; }
         public int ThietBiHong { get; set; }
         public int ThietBiDangSua { get; set; }
-        public decimal GiaTriTrungBinh { get; set; }
+        public double GiaTriTrungBinh { get; set; }
     }
 
     public class ThongKeSuDungTheoThangViewModel
